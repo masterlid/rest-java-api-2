@@ -1,0 +1,59 @@
+buildscript {
+  ext {
+    joobyVersion = "2.8.9"
+  }
+}
+
+plugins {
+  id "application"
+  id "io.jooby.run" version "${joobyVersion}"
+  id "io.spring.dependency-management" version "1.0.9.RELEASE"
+  id "com.google.osdetector" version "1.6.2"
+  id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+group "tv.lid.cinema.api2"
+version "1.0.0"
+mainClassName = "tv.lid.cinema.api2.App"
+sourceCompatibility = 1.8
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  jcenter()
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "io.jooby:jooby-bom:$joobyVersion"
+  }
+}
+
+dependencies {
+  implementation "io.jooby:jooby-jetty"
+  implementation "io.jooby:jooby-jackson"
+  implementation "ch.qos.logback:logback-classic"
+
+  implementation "com.h2database:h2"
+  implementation "org.sql2o:sql2o:1.6.0"
+
+  testImplementation "org.junit.jupiter:junit-jupiter-api"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine"
+  testImplementation "io.jooby:jooby-test"
+  testImplementation "com.squareup.okhttp3:okhttp"
+}
+
+test {
+  useJUnitPlatform()
+}
+
+/** Java debug information: */
+tasks.withType(JavaCompile) {
+  options.compilerArgs << '-parameters'
+  options.debug = true
+  options.encoding = 'UTF-8'
+}
+
+shadowJar {
+  mergeServiceFiles()
+}
