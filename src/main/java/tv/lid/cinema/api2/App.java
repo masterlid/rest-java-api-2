@@ -85,7 +85,7 @@ public class App extends Jooby {
     }
 
     public static void main(final String[] args) {
-        // создание соединение с БД и подключение
+        // создание соединения с БД и подключение
         final H2Storage h2s = new H2Storage();
 
         try {
